@@ -401,12 +401,7 @@ function UIDesignSection(){
             </p>
           </div>
           <div className="ui-featgrid">
-            <UIFeat icon="◇" label="Components"/>
-            <UIFeat icon="⊞" label="Auto-Layout"/>
-            <UIFeat icon="⇔" label="Constraints"/>
-            <UIFeat icon="▤" label="Styles & Variables"/>
-            <UIFeat icon="⊡" label="Multi-page"/>
-            <UIFeat icon="∿" label="Prototyping"/>
+            {UI_FEATS.map((f,i)=><UIFeat key={f.type} {...f} idx={i}/>)}
           </div>
         </div>
 
@@ -619,11 +614,151 @@ function UIDesignSection(){
   );
 }
 
-function UIFeat({icon,label}){
+const UI_FEATS = [
+  { color:'#8B5CF6', title:'Game Frames',       sub:'Canvas layers map directly to engine scene nodes — zero pixel drift.',    type:'frames'     },
+  { color:'#0094FF', title:'Component Library',  sub:'Design system components auto-sync as reusable engine prefabs.',          type:'components' },
+  { color:'#00D672', title:'Engine Binding',     sub:'Unity · Unreal · Godot share one live source of truth.',                  type:'binding'    },
+  { color:'#FF4D8D', title:'Infinite Canvas',    sub:'WebGL hybrid canvas. 120 FPS. No layer count limit.',                     type:'canvas'     },
+  { color:'#FFB020', title:'Live Layers',        sub:'Every layer is a typed, inspectable production node in the engine.',      type:'layers'     },
+  { color:'#A78BFA', title:'AI Asset Studio',    sub:'Style-locked game UI assets from text prompts. Layer-ready output.',      type:'ai'         },
+];
+
+function UIMini({type, color}){
+  const t = color;
+  if(type==='frames') return (
+    <svg width="100%" height="52" viewBox="0 0 120 52" fill="none">
+      <rect x="4"  y="12" width="26" height="30" rx="3" stroke={t} strokeWidth="1" opacity=".35"/>
+      <rect x="36" y="4"  width="48" height="44" rx="4" stroke={t} strokeWidth="1.5" opacity=".85"/>
+      <rect x="90" y="16" width="26" height="22" rx="3" stroke={t} strokeWidth="1" opacity=".35"/>
+      <rect x="38" y="6" width="44" height="7" rx="2" fill={t} opacity=".12"/>
+      <rect x="40" y="16" width="28" height="3" rx="1" fill={t} opacity=".18"/>
+      <rect x="40" y="21" width="36" height="3" rx="1" fill={t} opacity=".12"/>
+      <rect x="40" y="26" width="22" height="3" rx="1" fill={t} opacity=".09"/>
+      <circle cx="60" cy="44" r="3" fill={t} opacity=".7">
+        <animate attributeName="opacity" values=".7;.2;.7" dur="2.4s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="60" cy="44" r="6" stroke={t} strokeWidth=".8" opacity=".3" fill="none">
+        <animate attributeName="opacity" values=".3;.05;.3" dur="2.4s" repeatCount="indefinite"/>
+      </circle>
+    </svg>
+  );
+  if(type==='components') return (
+    <svg width="100%" height="52" viewBox="0 0 120 52" fill="none">
+      <rect x="20" y="8" width="80" height="36" rx="7" stroke={t} strokeWidth="1" opacity=".2">
+        <animate attributeName="opacity" values=".2;.45;.2" dur="3s" repeatCount="indefinite"/>
+      </rect>
+      <rect x="30" y="14" width="60" height="24" rx="5" stroke={t} strokeWidth="1.2" opacity=".5">
+        <animate attributeName="opacity" values=".5;.8;.5" dur="3s" begin=".5s" repeatCount="indefinite"/>
+      </rect>
+      <rect x="44" y="20" width="32" height="12" rx="3" fill={t} opacity=".18" stroke={t} strokeWidth="1.2"/>
+      <rect x="8" y="22" width="8" height="8" rx="2" fill={t} opacity=".45"/>
+      <rect x="104" y="22" width="8" height="8" rx="2" fill={t} opacity=".45"/>
+      <line x1="16" y1="26" x2="30" y2="26" stroke={t} strokeWidth=".8" opacity=".35" strokeDasharray="2 2">
+        <animate attributeName="stroke-dashoffset" from="0" to="-8" dur="1.2s" repeatCount="indefinite"/>
+      </line>
+      <line x1="90" y1="26" x2="104" y2="26" stroke={t} strokeWidth=".8" opacity=".35" strokeDasharray="2 2">
+        <animate attributeName="stroke-dashoffset" from="0" to="-8" dur="1.2s" repeatCount="indefinite"/>
+      </line>
+    </svg>
+  );
+  if(type==='binding') return (
+    <svg width="100%" height="52" viewBox="0 0 120 52" fill="none">
+      <circle cx="18" cy="32" r="9" fill="#00D67212" stroke="#00D672" strokeWidth="1.2"/>
+      <text x="18" y="36" fontSize="7" fill="#00D672" textAnchor="middle" opacity=".85">Unity</text>
+      <circle cx="60" cy="26" r="11" fill={t+'18'} stroke={t} strokeWidth="1.6"/>
+      <text x="60" y="31" fontSize="8" fill={t} textAnchor="middle" fontWeight="600" opacity=".9">Flippy</text>
+      <circle cx="102" cy="32" r="9" fill="#0094FF12" stroke="#0094FF" strokeWidth="1.2"/>
+      <text x="102" y="36" fontSize="6.5" fill="#0094FF" textAnchor="middle" opacity=".85">Unreal</text>
+      <circle cx="60" cy="8" r="7" fill="#38B6FF12" stroke="#38B6FF" strokeWidth="1.2"/>
+      <text x="60" y="12" fontSize="6.5" fill="#38B6FF" textAnchor="middle" opacity=".85">Godot</text>
+      <line x1="27" y1="29" x2="50" y2="28" stroke="#00D672" strokeWidth=".9" opacity=".5" strokeDasharray="3 3">
+        <animate attributeName="stroke-dashoffset" from="0" to="-12" dur="1.1s" repeatCount="indefinite"/>
+      </line>
+      <line x1="70" y1="28" x2="93" y2="29" stroke="#0094FF" strokeWidth=".9" opacity=".5" strokeDasharray="3 3">
+        <animate attributeName="stroke-dashoffset" from="0" to="-12" dur="1.1s" repeatCount="indefinite"/>
+      </line>
+      <line x1="60" y1="15" x2="60" y2="15" stroke="#38B6FF" strokeWidth=".9" opacity=".5" strokeDasharray="3 3">
+        <animate attributeName="y2" values="15;15" dur="1s" repeatCount="indefinite"/>
+      </line>
+      <path d="M60 15 L60 15" stroke="#38B6FF" strokeWidth=".9" opacity=".5" strokeDasharray="2 2">
+        <animate attributeName="d" values="M60 15 L60 15;M60 15 L60 15" dur="1s" repeatCount="indefinite"/>
+      </path>
+      <line x1="60" y1="15" x2="60" y2="15" stroke="#38B6FF" strokeWidth=".9" opacity=".5" strokeDasharray="2 2"/>
+      <path d="M 56 14 L 60 16 L 64 14" stroke="#38B6FF" strokeWidth=".8" opacity=".4" fill="none">
+        <animate attributeName="opacity" values=".4;.8;.4" dur="1.4s" repeatCount="indefinite"/>
+      </path>
+    </svg>
+  );
+  if(type==='canvas') return (
+    <svg width="100%" height="52" viewBox="0 0 120 52" fill="none">
+      {Array.from({length:60},(_,i)=>{
+        const col=i%12, row=Math.floor(i/12);
+        const d=Math.sqrt(Math.pow(col-5.5,2)+Math.pow(row-2,2));
+        return <circle key={i} cx={5+col*10} cy={6+row*10} r="1.2" fill={t} opacity={Math.max(0.05,0.55-d*0.11).toFixed(2)}/>;
+      })}
+      <circle cx="60" cy="26" r="14" stroke={t} strokeWidth=".8" opacity=".25" fill="none">
+        <animate attributeName="r" values="10;18;10" dur="3.5s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values=".3;.05;.3" dur="3.5s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="60" cy="26" r="5" fill={t} opacity=".55">
+        <animate attributeName="r" values="4;6;4" dur="2.2s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values=".55;.8;.55" dur="2.2s" repeatCount="indefinite"/>
+      </circle>
+    </svg>
+  );
+  if(type==='layers') return (
+    <svg width="100%" height="52" viewBox="0 0 120 52" fill="none">
+      {[
+        {y:6,  w:70, label:'HeroFrame',   active:false, delay:'0s'},
+        {y:16, w:88, label:'HUD·Health',  active:true,  delay:'.3s'},
+        {y:26, w:58, label:'Inventory',   active:false, delay:'.6s'},
+        {y:36, w:76, label:'Background',  active:false, delay:'.9s'},
+      ].map((l,i)=>(
+        <g key={i}>
+          <rect x="8" y={l.y} width={l.w} height="8" rx="2" fill={t} opacity={l.active?0.2:0.07}>
+            {l.active && <animate attributeName="opacity" values=".2;.3;.2" dur="2s" repeatCount="indefinite"/>}
+          </rect>
+          {l.active && <rect x="8" y={l.y} width={l.w} height="8" rx="2" stroke={t} strokeWidth="1" opacity=".7"/>}
+          <circle cx="14" cy={l.y+4} r="2" fill={t} opacity={l.active?0.9:0.3}/>
+        </g>
+      ))}
+      <circle cx="108" cy="10" r="5" fill="#00D672" opacity=".9">
+        <animate attributeName="opacity" values=".9;.35;.9" dur="1.6s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="108" cy="10" r="8" stroke="#00D672" strokeWidth=".8" opacity=".3" fill="none">
+        <animate attributeName="opacity" values=".3;.05;.3" dur="1.6s" repeatCount="indefinite"/>
+      </circle>
+    </svg>
+  );
+  if(type==='ai') return (
+    <svg width="100%" height="52" viewBox="0 0 120 52" fill="none">
+      <circle cx="60" cy="26" r="16" stroke={t} strokeWidth=".8" opacity=".2" fill="none">
+        <animate attributeName="r" values="12;20;12" dur="4s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values=".3;.05;.3" dur="4s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="60" cy="26" r="9" fill={t} opacity=".12"/>
+      <text x="60" y="31" fontSize="16" fill={t} textAnchor="middle" opacity=".9">✦</text>
+      {[[60,5],[77,13],[84,31],[70,45],[44,45],[30,30],[26,14],[42,6]].map(([cx,cy],i)=>(
+        <circle key={i} cx={cx} cy={cy} r="2" fill={t} opacity=".45">
+          <animate attributeName="opacity" values=".45;1;.45" dur="2.8s" begin={`${i*0.32}s`} repeatCount="indefinite"/>
+          <animate attributeName="r" values="1.5;2.8;1.5" dur="2.8s" begin={`${i*0.32}s`} repeatCount="indefinite"/>
+        </circle>
+      ))}
+    </svg>
+  );
+  return null;
+}
+
+function UIFeat({color, title, sub, type, idx}){
   return (
-    <div className="ui-feat">
-      <div className="uf-icon">{icon}</div>
-      <div className="uf-label">{label}</div>
+    <div className="ui-feat" style={{'--fc':color, animationDelay:`${idx*0.09}s`}}>
+      <div className="uf-accent-bar" style={{background:color}}/>
+      <div className="uf-mini"><UIMini type={type} color={color}/></div>
+      <div className="uf-info">
+        <div className="uf-title">{title}</div>
+        <div className="uf-sub">{sub}</div>
+      </div>
+      <div className="uf-glow" style={{background:color}}/>
     </div>
   );
 }

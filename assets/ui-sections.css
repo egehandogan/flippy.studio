@@ -1,11 +1,32 @@
 /* Flippy — UI Design section + Peel section styles */
 
 /* ============== UI DESIGN SECTION ============== */
-.ui-featgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:460px}
-.ui-feat{display:flex;align-items:center;gap:10px;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:rgba(255,255,255,.015);transition:.2s}
-.ui-feat:hover{border-color:#3a2a6b;background:rgba(139,92,246,.05)}
-.uf-icon{width:28px;height:28px;border-radius:6px;background:rgba(139,92,246,.12);color:#A78BFA;display:flex;align-items:center;justify-content:center;font-size:14px}
-.uf-label{font-size:13px;color:#C9C9D1}
+.ui-featgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:500px}
+.ui-feat{
+  position:relative;display:flex;flex-direction:column;
+  border:1px solid var(--line);border-radius:14px;
+  background:rgba(255,255,255,.02);overflow:hidden;
+  cursor:default;
+  transition:transform .3s cubic-bezier(.22,1,.36,1), border-color .3s ease, background .3s ease;
+  animation:feat-in .6s ease both;
+}
+@keyframes feat-in{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.ui-feat:hover{transform:translateY(-4px);border-color:var(--fc,#8B5CF6);background:rgba(255,255,255,.035)}
+.uf-accent-bar{height:2px;width:100%;opacity:0;transition:opacity .3s;flex-shrink:0;position:relative;z-index:2}
+.ui-feat:hover .uf-accent-bar{opacity:1}
+.uf-mini{
+  padding:10px 12px 8px;display:flex;align-items:center;justify-content:center;
+  border-bottom:1px solid rgba(255,255,255,.04);position:relative;
+}
+.uf-glow{
+  position:absolute;width:80px;height:80px;border-radius:50%;
+  bottom:-40px;left:50%;transform:translateX(-50%);
+  filter:blur(28px);opacity:0;transition:opacity .4s;pointer-events:none;
+}
+.ui-feat:hover .uf-glow{opacity:.18}
+.uf-info{padding:12px 14px 14px}
+.uf-title{font-size:12px;font-weight:600;color:#E6E6EA;line-height:1.3}
+.uf-sub{font-size:10.5px;color:#5C5C66;line-height:1.5;margin-top:4px}
 
 /* App shell */
 .app-shell{margin-top:48px;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#0A0A0B;box-shadow:0 40px 120px rgba(0,0,0,.5)}
@@ -297,7 +318,7 @@
   .as-body{grid-template-columns:1fr;height:auto}
   .as-left,.as-right{display:none}
   .as-canvas{height:420px}
-  .ui-featgrid{grid-template-columns:repeat(2,1fr)}
+  .ui-featgrid{grid-template-columns:repeat(2,1fr);max-width:100%}
   .engine-receive{grid-template-columns:1fr}
   .core-stats{position:static;margin-top:14px}
 }
