@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Flippy — The Production OS for Games</title>
+<meta name="description" content="Flippy is a hybrid, infinite-canvas design tool that ships live to Unity, Unreal, and Godot. Zero export. Anti-Prompt AI. Production-ready."/>
+
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+
+<link rel="icon" href="assets/logo.svg"/>
+<link rel="stylesheet" href="assets/tokens.css"/>
+<link rel="stylesheet" href="assets/sections.css"/>
+<link rel="stylesheet" href="assets/ui-sections.css"/>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+<template id="__bundler_thumbnail" data-bg-color="#07070a">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="tg" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#8B5CF6"/>
+        <stop offset="1" stop-color="#0094FF"/>
+      </linearGradient>
+    </defs>
+    <rect width="1200" height="800" fill="#07070a"/>
+    <g transform="translate(480,240)">
+      <path d="M176 48H104c-26 0-48 22-48 48v112" stroke="url(#tg)" stroke-width="26" stroke-linecap="round" fill="none"/>
+      <path d="M80 128h72" stroke="url(#tg)" stroke-width="26" stroke-linecap="round" fill="none"/>
+      <circle cx="196" cy="48" r="18" fill="#A78BFA"/>
+    </g>
+    <text x="600" y="640" font-family="system-ui,sans-serif" font-size="42" font-weight="700" fill="#e9e9ef" text-anchor="middle">Flippy</text>
+    <text x="600" y="682" font-family="ui-monospace,monospace" font-size="18" fill="#8a8a96" text-anchor="middle">Loading production OS…</text>
+  </svg>
+</template>
+
+<div id="root"></div>
+
+<script type="text/babel" src="assets/hero.jsx"></script>
+<script type="text/babel" src="assets/sections-a.jsx"></script>
+<script type="text/babel" src="assets/sections-b.jsx"></script>
+<script type="text/babel" src="assets/sections-c.jsx"></script>
+<script type="text/babel" src="assets/ui-sections.jsx"></script>
+
+<script type="text/babel">
+const { useEffect } = React;
+
+function App(){
+  // reveal-on-scroll
+  useEffect(()=>{
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('in'); });
+    }, { threshold:.08 });
+    document.querySelectorAll('.section, .section-head, .engine-card, .bench-card, .price-card, .rm-item, .mring, .matrix').forEach(el=>{
+      el.classList.add('reveal'); io.observe(el);
+    });
+    return ()=>io.disconnect();
+  },[]);
+
+  return (
+    <>
+      <NavBar/>
+      <Hero/>
+      <LiveSyncSection/>
+      <UIDesignSection/>
+      <PeelSection/>
+      <EnginesSection/>
+      <AISection/>
+      <BenchmarksSection/>
+      <CompetitorSection/>
+      <PricingSection/>
+      <CreditCalculator/>
+      <RoadmapSection/>
+      <InvestorsSection/>
+      <WaitlistSection/>
+      <Footer/>
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
