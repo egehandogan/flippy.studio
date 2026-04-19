@@ -278,6 +278,7 @@ const CONN_MSGS = [
 function GitHubConnectFlow(){
   const [phase, setPhase] = useState(0);
   const [connStep, setConnStep] = useState(0);
+  const [visibleCards, setVisibleCards] = useState(0);
   const ref = useRef(null);
   const played = useRef(false);
 
@@ -285,7 +286,7 @@ function GitHubConnectFlow(){
     const obs = new IntersectionObserver(([e])=>{
       if(e.isIntersecting && !played.current){
         played.current = true;
-        setTimeout(()=>setPhase(1), 1000);
+        setTimeout(()=>setPhase(1), 2000);
       }
     },{threshold:0.35});
     if(ref.current) obs.observe(ref.current);
@@ -302,8 +303,19 @@ function GitHubConnectFlow(){
   },[phase]);
 
   useEffect(()=>{
+    if(phase!==2){ setVisibleCards(0); return; }
+    let count = 0;
+    const id = setInterval(()=>{
+      count++;
+      setVisibleCards(count);
+      if(count >= GH_CARDS.length) clearInterval(id);
+    }, 160);
+    return ()=>clearInterval(id);
+  },[phase]);
+
+  useEffect(()=>{
     if(phase!==2) return;
-    const id = setTimeout(()=>{ setPhase(0); setConnStep(0); played.current=false; setTimeout(()=>setPhase(1),800); }, 9000);
+    const id = setTimeout(()=>{ setPhase(0); setConnStep(0); setVisibleCards(0); played.current=false; setTimeout(()=>setPhase(1),2000); }, 10000);
     return ()=>clearTimeout(id);
   },[phase]);
 
@@ -356,8 +368,8 @@ function GitHubConnectFlow(){
           <div className="ghf-synced-badge mono tiny"><span style={{color:'#34E08B'}}>●</span> 6 screens synced</div>
         </div>
         <div className="ghf-cards">
-          {GH_CARDS.map((c,i)=>(
-            <div key={c.name} className="ghf-card" style={{'--cc':c.color, animationDelay:`${i*0.07}s`}}>
+          {GH_CARDS.slice(0, visibleCards).map((c,i)=>(
+            <div key={c.name} className="ghf-card" style={{'--cc':c.color}}>
               <div className="ghf-card-vis"><CardMini type={c.type} color={c.color}/></div>
               <div className="ghf-card-info">
                 <div className="ghf-card-name">{c.name}</div>
